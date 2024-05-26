@@ -1,0 +1,28 @@
+{% extends "layout/index.html" %}
+{% block title %}Home{% endblock title %}
+{% block content %}
+<div class='container mt-3'>
+    <form class='p-3 card shadow d-flex gap-3 align-items-center ' method='post'>
+        {% csrf_token %}
+        <p class='text-center h1'>Sign In</p>
+        <div class='sbox'>
+            <label for="email" class='label'>User Email</label>
+            <input type="text" id='username' name='username' class='inputs' placeholder='Name'>
+        </div>
+        <div class='sbox'>
+            <label for="password" class='label'>Password</label>
+            <input type="password" id='password' name='password' class='inputs' placeholder='Password'>
+        </div>
+        {% comment %} <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1">
+        </div> {% endcomment %}
+        <button type="submit" class="btn btn-primary">Log in</button>
+        <p class='fs-6'>New User? <a href="{% url 'registerpage' %}" class='text-primary'>Regisiter</a></p>
+    </form>
+</div>
+{% endblock content %}

@@ -1,0 +1,90 @@
+{% extends "layout/index.html" %}
+{% block title %}Cart{% endblock title %}
+{% block content %}
+<p class='container-fluid h3 text-center bg-secondary mt-3 p-2 text-light'>Cart</p>
+    <div class='mx-3'>
+        <p class='fs-1 h1'>Subtotal :  <span id='totelAmt'></span></p>
+        <button class='btn btn-primary'>Proceed to Buy <span id='totalProduct'>{{items.product_qty}}</span></button>
+        <br>
+        {% comment %} <a href={% url 'cartpage' %}><button class='btn btn-primary mt-2' id='SaveBtn' disabled='true'>Save the Change</button></a> {% endcomment %}
+    </div>
+    <div class='home1'>
+        {% for items in cart %}
+        <p class='amt' hidden>{{items.total_cost}}</p>
+        <p class='qty' hidden>{{items.product_qty}}</p>
+        <input type="text" name="" id="productId" value='{{items.product.id}}' hidden>
+        <div class='card cartItems'>
+            <a href="{% url 'single_product' items.product.subcategory.category.name items.product.subcategory.name items.product.name %}" class='productNavigate'><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            <div class='cartItem'>
+                <img src="{{items.product.product_image.url}}" alt="" class='cartImg'>
+                <div class='cartDetails'>
+                    <p id='product_quantity' hidden >{{items.product.quantity}}</p>
+                    <p>{{items.product.name | capfirst}}</p>
+                    <p><sup><i class="fa-solid fa-indian-rupee-sign"></i></sup>{{items.product.selling_price}}</p>
+                    <p class='sizes'>Size : <span class='size_s'>{{items.product_size}}</span></p>
+                    <p>Quantity : <span>{{items.product_qty}}</span></p>
+                </div>
+            </div>
+            <div class='cartBtn'>
+                <button class='btn btn-primary'>
+                    <i class="fa-solid fa-heart text-light"></i>
+                </button>
+                <button class='btn btn-primary'>Buy now <i class="fa-solid fa-basket-shopping"></i></button>
+                <a href="{% url 'removecart' items.id%}" class='h1 fs-5'><i class="fa-solid fa-trash text-danger"></i></a>
+            </div>
+        </div>
+        
+        {% endfor %} 
+    </div>
+<script>
+    document.addEventListener('DOMContentLoaded',function(event){
+        const nodes = document.querySelectorAll('.amt');
+        const arr = Array.from(nodes);
+        const res = arr.reduce((acc,curr)=>{
+            return acc += Number(curr.textContent)
+        },0);
+        document.getElementById('totelAmt').innerHTML = 'RS :'+res
+    
+    
+        const node = document.querySelectorAll('.qty');
+        const arrs = Array.from(node);
+        const ress = arrs.reduce((accc,currr)=>{
+            return accc += Number(currr.textContent)
+        },0);
+        document.getElementById('totalProduct').innerHTML = ress
+
+        let SaveBtn = document.getElementById('SaveBtn')
+        const cart_qty = document.getElementById('cart_qty')
+
+        
+    })
+</script>
+{% endblock content %}
+
+{% comment %} let myfunction = async function(){
+    SaveBtn.removeAttribute('disabled')
+    let productCount = parseInt(product_count.value,10)
+    productCount = isNaN(productCount)?1:productCount
+    if(productCount){
+        let postobj = {
+            "productCount" : productCount,
+            "productId" : productId.value,
+        }
+        console.log(postobj)
+        const response = await fetch("/updatecart",{
+            method : "POST",
+            credentials : 'same-origin',
+            headers:{
+                'Accept':'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken':'{{ csrf_token }}',
+            },
+            body : JSON.stringify(postobj)
+        }).then(response=>{
+            return response.json()
+        })
+        .then(data=>{console.log(data)})
+    }else{
+        alert("Count");
+    }
+} {% endcomment %}

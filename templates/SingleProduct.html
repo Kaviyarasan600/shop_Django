@@ -1,0 +1,172 @@
+{% extends "layout/index.html" %}
+{% block title %}Category{% endblock title %}
+{% block content %}
+    <div class='subnavigation'>
+        <ul class='options subnavoption'>
+            <li><a class='option text-decoration-none' href="{% url 'home' %}"><i class="fa-solid fa-house"></i></a></li>
+            <li><a class='option text-decoration-none' href="{% url 'category' %}">{{"Categore" | capfirst}}</a> <</li>
+            <li><a class='option text-decoration-none' href="{% url 'category' cname %}">{{cname |capfirst}}</a> <</li>
+            <li><a class='option text-decoration-none' href="{% url 'products' cname pname %}">{{pname | capfirst}}</a> <</li>
+            <li>{{name}} <</li>
+        </ul>
+    </div>
+    <div class='container-lg single_product1'>
+        <input type="text" name="" id="productId" value='{{product.id}}' hidden>
+        {% for items in favProduct  %}
+        {% if items.product.id == product.id %}
+        <input type="text" name="" id="favId" value='{{ items.product.id}}' hidden>
+        {% endif %}
+        {% endfor %}
+            <div class='product_image'>
+                <img src="{{product.product_image.url}}" alt="" class='product_img' id='product_img'>
+                <div class=''>
+                    <p>{{product}}</p>
+                    <p class='d-flex flex-column'>
+                        <span class='text-success fs-4'><sup><i class="fa-solid fa-indian-rupee-sign"></i></sup>{{product.selling_price}}</span>
+                        <span class='text-danger text-decoration-line-through'>{{product.old_price}}</span>
+                    </p>
+                    <div>
+                        {% if  product.quantity  %}
+                        <div class='d-flex align-items-center gap-1'>
+                            <p id='product_quantity' hidden >{{product.quantity}}</p>
+                            <button type='button' class="btn btn-primary" id='count_decrease'>-</button>
+                            <input type="text" value='1' class='w-25 text-center ' id='product_count'>
+                            <button type='button' class="btn btn-primary " id='count_increase'>+</button>
+                        </div>
+                            {% if product.quantity <= 10 %}
+                                <p id=''>Only {{product.quantity}} left</p>
+                            {% else %}
+                                <p class=''>Avialble: {{product.quantity}}</p>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class='product-btns'>
+                {% if product.quantity  %}
+                <button class='btn btn-primary' id='addCartBtn'>Add to Cart</button>
+                <button class='btn btn-primary'>Buy now</button>
+                {% else %}
+                <button class='btn btn-primary disabled'>out of stock</button>
+                {% endif %}
+
+                {% for items in favProduct  %}
+                    {% if items.product.id == product.id %}
+                    <a href="{% url 'removefavorites' items.id %}" >
+                        <i class="fa-solid fa-heart text-danger"></i>
+                    </a>
+                    {% endif %}
+                {% endfor %}
+                <button class='btn btn-primary' id='likebtn' onclick='location.reload(true)'>
+                    <i class="fa-solid fa-heart text-light"></i>
+                </button> 
+                {% comment %} <a href="{% url 'removefavorites' items.id %}" >
+                    <i class="fa-solid fa-heart text-danger"></i>
+                </a>{% endcomment %}
+            </div>
+            <div class='image_toggler'>
+                    <img src="{{product.product_image.url}}" alt="" class='img_toggler'>
+
+                    {% if product.product_image_one  %}
+                    <img src="{{product.product_image_one.url}}" alt="" class='img_toggler'>
+                    {% else %}
+                        <img src="" alt="">
+                    {% endif %}
+
+                    {% if product.product_image_two  %}
+                    <img src="{{product.product_image_two.url}}" alt="" class='img_toggler'>
+                    {% else %}
+                        <img src="" alt="">
+                    {% endif %}
+                    
+                    {% if product.product_image_three  %}
+                        <img src="{{product.product_image_three.url}}" alt="" class='img_toggler'>
+                    {% else %}
+                        <img src="" alt=""> 
+                    {% endif %}
+            </div>
+            <div class='measurements'>
+                <p class='sizes'>Size : <span class='size_s'>L</span></p>
+                <div class='measurement'>
+                    <p class='various_size btn btn-outline-primary' value='S'>S</p>
+                    <p class='various_size btn btn-outline-primary' value='M'>M</p>
+                    <p class='various_size btn btn-outline-primary' value='L'>L</p>
+                    <p class='various_size btn btn-outline-primary' value='XL'>XL</p>
+                </div>
+            </div>
+            <div class='highlight_s'>
+                {% for items in highlights %}
+                <p class='bg-info rounded h6'>{{items | capfirst}}</p>
+                {% endfor %}
+            </div>
+            <div class='product_description'>
+                <p>About</p>
+                <p class='description'>
+                    {{product.description}}
+                </p>
+            </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded',function(event){
+            const addCartBtn = document.getElementById('addCartBtn')
+            const productId = document.getElementById('productId')
+            const productCounts = document.getElementById('product_count')
+            const productSize = document.querySelector('.size_s')
+
+            const count_increase = document.getElementById('count_increase')
+            const count_decrease = document.getElementById('count_decrease')
+            const likebtn = document.getElementById('likebtn')
+            const favId = document.getElementById('favId') || null
+            if(favId){
+                likebtn.style.display = 'none'
+            }
+
+            addCartBtn.addEventListener('click',async function(){
+                let productCount = parseInt(product_count.value,10)
+                productCount = isNaN(productCount)?0:productCount
+                if(productCount){
+                    let postobj = {
+                        "productCount" : productCount,
+                        "productId" : productId.value,
+                        "productSize" : productSize.innerHTML
+                    }
+                    console.log(postobj)
+                    const response = await fetch("/addtocart",{
+                        method : "POST",
+                        credentials : 'same-origin',
+                        headers:{
+                            'Accept':'application/json',
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRFToken':'{{ csrf_token }}',
+                        },
+                        body : JSON.stringify(postobj)
+                    }).then(response=>{
+                        return response.json()
+                    })
+                    .then(data=>{console.log(data)})
+                }else{
+                    alert("Count");
+                }
+            });
+
+            likebtn.addEventListener('click',function(){
+                let postobj = {
+                    'productId' : productId.value
+                }
+                console.log(postobj)
+                fetch("/addtfav",{
+                    method : 'POST',
+                    credentials : 'same-origin',
+                    headers:{
+                        'Accept':'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRFToken':'{{ csrf_token }}',
+                    },
+                    body : JSON.stringify(postobj)
+                }).then(response=>{
+                    return response.json();
+                }).then(data=>{console.log(data)})
+            })
+        })
+    </script>
+{% endblock content %}

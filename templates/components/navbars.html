@@ -1,0 +1,52 @@
+{% load static %}
+    <nav  class="navbar navbar-expand-lg bg-primary position-sticky top-0 w-100 nav1" data-bs-theme="dark" style='z-index:999'>
+        <div class="container-fluid container1">
+        <a class="navbar-brand text-light h1 fs-2" href={%url 'home' %}>Shopify</a>
+        <div class="fs-6 navbar1">
+            <button class='btn1 border-0 bg-transparent' id='togglebtn'>
+                <i class="fa-solid fa-bars text-light "></i>
+                <i class="fa-regular fa-circle-xmark text-light "></i>
+            </button>
+            <ul class="option1 navbar-nav d-flex flex-row justify-content-center align-items-center gap-3 bg-primary " id='option1'>
+                {% comment %}  {% endcomment %}
+                {% if request.user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-light " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{user | capfirst}}
+                        <i class="fa-solid fa-circle-user display-5 "></i>
+                    </a>
+                    <ul class="dropdown-menu position-absolute" style = 'left:-100px'>
+                        {% comment %} <li><a class="dropdown-item" href="#">Profile</a></li> {% endcomment %}
+                        <li><a class="dropdown-item" href="{% url 'favorites'%}">Favorites</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="{% url 'logout'%}">Logout <i class="fa-solid fa-arrow-right-from-bracket px-2"></i></a></li>
+                    </ul>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link text-light" href={% url 'loginpage' %}>Sing In <i class="fa-solid fa-arrow-right-to-bracket"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href={% url 'registerpage'%}>Sing Up <i class="fa-solid fa-user-plus"></i> </a>
+                </li>
+                {% endif %}
+                {% comment %}  {% endcomment %}
+                <li class="nav-item">
+                    <a class="nav-link active text-light" aria-current="page"  href={%url 'home' %}>Home <i class="fa-solid fa-house"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href={%url 'category'%}>
+                        Category
+                        <i class="fa-solid fa-store"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href={% url 'cartpage' %}>
+                        Cart
+                        <i class="fa-solid fa-cart-shopping fs-5"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        </div>
+    </nav>

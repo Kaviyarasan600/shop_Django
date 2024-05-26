@@ -1,0 +1,40 @@
+{% extends "layout/index.html" %}
+{% block title %}Home{% endblock title %}
+{% block content %}
+<div class='container-sm mt-3' >
+    <form class='p-3 card shadow d-flex gap-3 align-items-center'  method='post' action=''>
+        {% csrf_token %}
+        <p class='text-center h1'>Sign Up</p>
+        <div class='sbox md-3' >
+            <label for="username" class='form-label label'>Name</label>
+            {{form.username}}
+            {% if form.errors.username%}
+                <lable class='text-danger'>{{form.errors.username}}</lable>
+            {% endif %}
+        </div>
+        <div class='sbox'>
+            <label for="email" class='form-label label'>Email</label>
+            {{form.email}}
+            {% if form.errors.email%}
+                <lable class='text-danger'>{{form.errors.email}}</lable>
+            {% endif %}
+        </div>
+        <div class='sbox'>
+            <label for="password1" class='form-label label'>Password</label>
+            {{form.password1}}
+            {% if form.errors.password1%}
+                <lable class='text-danger'>{{form.errors.password1}}</lable>
+            {% endif %}
+        </div>
+        <div class='sbox'>
+            <label for="password2" class='form-label label'>Conform Password</label>
+            {{form.password2}}
+            {% if form.errors.password2%}
+                <lable class='text-danger'>{{form.errors.password2}}</lable>
+            {% endif %}
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <p class='fs-6'>Already user? <a href="{% url 'loginpage' %}" class='text-primary'>Login</a></p>
+    </form>
+</div>
+{% endblock content %}
