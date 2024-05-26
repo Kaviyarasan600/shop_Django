@@ -13,7 +13,7 @@
         <p class='amt' hidden>{{items.total_cost}}</p>
         <p class='qty' hidden>{{items.product_qty}}</p>
         <input type="text" name="" id="productId" value='{{items.product.id}}' hidden>
-        <div class='card cartItems'>
+        <div class='card cartItems' style='height: 20em;'>
             <a href="{% url 'single_product' items.product.subcategory.category.name items.product.subcategory.name items.product.name %}" class='productNavigate'><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
             <div class='cartItem'>
                 <img src="{{items.product.product_image.url}}" alt="" class='cartImg'>
@@ -26,9 +26,9 @@
                 </div>
             </div>
             <div class='cartBtn'>
-                <button class='btn btn-primary'>
+                {% comment %} <button class='btn btn-primary'>
                     <i class="fa-solid fa-heart text-light"></i>
-                </button>
+                </button> {% endcomment %}
                 <button class='btn btn-primary'>Buy now <i class="fa-solid fa-basket-shopping"></i></button>
                 <a href="{% url 'removecart' items.id%}" class='h1 fs-5'><i class="fa-solid fa-trash text-danger"></i></a>
             </div>

@@ -7,10 +7,10 @@
             <li><a class='option text-decoration-none' href="{% url 'category' %}">{{"Categore" | capfirst}}</a> <</li>
             <li><a class='option text-decoration-none' href="{% url 'category' cname %}">{{cname |capfirst}}</a> <</li>
             <li><a class='option text-decoration-none' href="{% url 'products' cname pname %}">{{pname | capfirst}}</a> <</li>
-            <li>{{name}} <</li>
+            <li><</li>
         </ul>
     </div>
-    <div class='container-lg single_product1'>
+    <div class='container-lg single_product1 p-3'>
         <input type="text" name="" id="productId" value='{{product.id}}' hidden>
         {% for items in favProduct  %}
         {% if items.product.id == product.id %}
@@ -18,7 +18,7 @@
         {% endif %}
         {% endfor %}
             <div class='product_image'>
-                <img src="{{product.product_image.url}}" alt="" class='product_img' id='product_img'>
+                <img src="{{product.product_image.url}}" alt="" class='product_img border p-1' id='product_img'>
                 <div class=''>
                     <p>{{product}}</p>
                     <p class='d-flex flex-column'>
@@ -87,12 +87,23 @@
             </div>
             <div class='measurements'>
                 <p class='sizes'>Size : <span class='size_s'>L</span></p>
+                {% if pname == "Pants"  or pname == 'Trousers'%}
+                <div class='measurement'>
+                    <p class='various_size btn btn-outline-primary' value='32'>32</p>
+                    <p class='various_size btn btn-outline-primary' value='34'>34</p>
+                    <p class='various_size btn btn-outline-primary' value='36'>36</p>
+                    <p class='various_size btn btn-outline-primary' value='38'>38</p>
+                </div>
+                {% elif  pname == "Women's Accessories"  or pname == "Men's Accessories" %}
+                <p hidden></p>
+                {% else %}
                 <div class='measurement'>
                     <p class='various_size btn btn-outline-primary' value='S'>S</p>
                     <p class='various_size btn btn-outline-primary' value='M'>M</p>
                     <p class='various_size btn btn-outline-primary' value='L'>L</p>
                     <p class='various_size btn btn-outline-primary' value='XL'>XL</p>
                 </div>
+                {% endif %}
             </div>
             <div class='highlight_s'>
                 {% for items in highlights %}

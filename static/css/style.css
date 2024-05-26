@@ -13,8 +13,12 @@ body .home1 {
   padding: 1.5em;
 }
 body .home1 .home2 {
+  width: 18em !important;
+  min-height: 18em !important;
   align-self: center;
   justify-self: center;
+  text-align: center;
+  padding: 1em !important;
 }
 body .home1 .heading {
   grid-column: span 2 !important;
@@ -60,6 +64,7 @@ body .subnavigation .subnavoption {
   display: flex;
   flex-direction: row-reverse;
   list-style: none;
+  font-size: 0.6em;
 }
 body .sbox {
   width: 90%;
@@ -80,6 +85,73 @@ body .sbox .inputs {
   outline: none;
   border: none;
   font-weight: 600;
+}
+body .single_product1 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 0.8fr 0.2fr 0.2fr 0.2fr 0.5fr;
+}
+body .single_product1 .product_image {
+  grid-column: span 2;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.8em;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+}
+body .single_product1 .product_image .product_img {
+  margin-left: 3em;
+  width: 13em;
+  border-radius: 0.8em;
+}
+body .single_product1 .product-btns {
+  grid-column: span 2;
+  display: flex;
+  gap: 1em;
+  align-items: center;
+  justify-content: center;
+  place-content: center;
+}
+body .single_product1 .product-btns .fa-regular {
+  color: white;
+}
+body .single_product1 .image_toggler {
+  grid-column: span 2;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  padding: 8px;
+}
+body .single_product1 .image_toggler .img_toggler {
+  border: 1px solid black;
+  width: 3em;
+  border-radius: 0.2em;
+}
+body .single_product1 .highlight_s {
+  grid-column: span 2;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(8rem, 100%), 1fr));
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  padding: 8px;
+}
+body .single_product1 .highlight_s p {
+  padding: 8px;
+  background: #000;
+  text-align: center;
+  color: white;
+}
+body .single_product1 .product_description {
+  grid-column: span 2;
+}
+body .single_product1 .product_description .description {
+  padding: 12px;
+  text-align: justify;
 }
 
 @media (max-width: 750px) {
@@ -149,6 +221,7 @@ body .sbox .inputs {
     padding: 8px;
   }
   body .single_product1 .product_image .product_img {
+    margin-left: 0em;
     width: 8em;
     border-radius: 0.8em;
   }

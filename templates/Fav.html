@@ -4,7 +4,7 @@
 <p class='container-fluid w-100 h3 text-center bg-secondary mt-3 p-2 text-light'>Favorites</p>
 <div class='home1'>
     {% for items in favproduct %}
-    <div class="home2 card align-items-center shadow p-2 text-decoration-none " style="width: 16rem; hight: 10rem;">
+    <div class="home2 card align-items-center shadow p-2 text-decoration-none ">
         <a href="{% url 'single_product' items.product.subcategory.category.name items.product.subcategory.name items.product.name %}" class='productNavigate'><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
         <img src='{{items.product.product_image.url}}' class="card-img-top w-75 m-2 rounded-3 " alt="...">
         <div class='d-flex gap-5'>
