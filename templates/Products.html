@@ -16,7 +16,7 @@
         <a href="{% url 'single_product' cname pname items.name %}" class="home2 card align-items-center shadow p-2 text-decoration-none ">
             <img src='{{items.product_image.url}}' class="card-img-top w-50 m-2 rounded-3 " alt="...">
             {% if items.trending %}
-            <p class='position-absolute end-0 mx-4 my-2'><i class="fa-solid fa-fire text-warning fs-4"></i></p>
+            <p class='position-absolute end-0 mx-4 my-4 top-0 '><i class="fa-solid fa-fire text-warning fs-4"></i></p>
             {% endif %}
             <div class="card-body">
                 <h5 class="card-title ">{{items.name | upper}}</h5>
