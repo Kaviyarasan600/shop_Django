@@ -26,12 +26,16 @@ def subCategoryPage(request,name):
         return render (request, 'SubCategory.html',{ "cname":name, "subcategory":subcategory})
 
 def productPage(request,cname,name):
-    if(Category.objects.filter(name=cname,status=0)):
-        if(SubCategory.objects.filter(name=name,status=0)):
-            product = Product.objects.filter(subcategory__name=name,status=0)
-            return render(request,'Products.html',{"product":product, "cname":cname, "pname":name})
-                
+    if request.user.is_authenticated:
+        if(Category.objects.filter(name=cname,status=0)):
+            if(SubCategory.objects.filter(name=name,status=0)):
+                product = Product.objects.filter(subcategory__name=name,status=0)
+                return render(request,'Products.html',{"product":product, "cname":cname, "pname":name})
+    else:
+        return redirect('loginpage')
+
 def singleProductPage(request, cname,pname, name):
+    if request.user.is_authenticated:
         if(Category.objects.filter(name=cname,status=0)):
             if(SubCategory.objects.filter(name=pname,status=0)):
                 if(Product.objects.filter(name=name,status=0)):
@@ -39,7 +43,9 @@ def singleProductPage(request, cname,pname, name):
                     FavProduct=fav_items.objects.filter(user=request.user)
                     highlights = product.highlight.split(',')
                     # description = product.description.strip().split('.')
-                    return render(request, 'SingleProduct.html',{"product":product, "cname":cname, "pname":pname, "name":name, "highlights": highlights, "favProduct" :FavProduct})
+                    return render(request, 'SingleProduct.html',{"product":product, "cname":cname, "pname":pname, "names":name, "highlights": highlights, "favProduct" :FavProduct})
+    else:
+        return redirect('loginpage')
 
 
 def registerPage(request):
